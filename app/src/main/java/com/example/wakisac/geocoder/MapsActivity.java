@@ -1,9 +1,18 @@
 package com.example.wakisac.geocoder;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -11,10 +20,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     String getArea,getStreet,getHouseNum;
-    String url ="http://192.168.43.57/getData.php";
+    String url ="http://41.70.47.217/getData.php";
+
     private GoogleMap mMap;
 
     @Override
@@ -47,10 +63,106 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getStreet= i.getStringExtra("street");
         getHouseNum= i.getStringExtra("houseNum");
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng( -15.3766 , 35.3357);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                        JSONObject obj = new JSONObject(response);
+
+                        double lati = obj.getDouble("Latitude");
+                        double longi = obj.getDouble("Longitude");
+                            // Add a marker and move the camera
+                            LatLng location = new LatLng( lati, longi);
+                            mMap.addMarker(new MarkerOptions().position(location).title(getArea+" "+ getStreet+" street,  house number "+getHouseNum));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(MapsActivity.this, "Connection !!", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MapsActivity.this, "Connection Error!!", Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("area", getArea);
+                params.put("street", getStreet);
+                params.put("houseNum", getHouseNum);
+
+                return params;
+            }
+        };
+        Mysingleton.getmInstance(MapsActivity.this).addToRequestque(stringRequest);
+
+
+
     }
+
+    public void goToLocation(){
+        // get the latitude and longitude
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            double lat = response.getDouble("Latitude");
+                            double longi = response.getDouble("Longitude");
+
+                            // Add a marker and move the camera
+                            LatLng location = new LatLng( lat, longi);
+                            mMap.addMarker(new MarkerOptions().position(location).title(getArea+" "+ getStreet+" street,  house number "+getHouseNum));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MapsActivity.this, "Error!!!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        Mysingleton.getmInstance(MapsActivity.this).addToRequestque(jsonObjectRequest);
+
+        //////////////////
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MapsActivity.this, "Connection Error!!", Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("area", getArea);
+                params.put("street", getStreet);
+                params.put("houseNum", getHouseNum);
+
+                return params;
+            }
+        };
+        Mysingleton.getmInstance(MapsActivity.this).addToRequestque(stringRequest);
+    }
+
 }
