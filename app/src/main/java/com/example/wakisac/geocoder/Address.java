@@ -1,5 +1,6 @@
 package com.example.wakisac.geocoder;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ public class Address extends AppCompatActivity {
     AlertDialog.Builder builder;
     String url ="http://41.70.47.217/connect.php";
     ProgressBar spinner;
+    ProgressDialog dialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class Address extends AppCompatActivity {
         street = (EditText)findViewById(R.id.street);
         houseNum = (EditText)findViewById(R.id.houseNum);
         spinner=(ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.GONE);
+        dialogue = new ProgressDialog(this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +95,8 @@ public class Address extends AppCompatActivity {
                     "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            dialogue.setMessage("Loading...");
+                            dialogue.show();
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -101,6 +105,7 @@ public class Address extends AppCompatActivity {
                                         @Override
                                         public void onResponse(String response) {
                                             if (response.equalsIgnoreCase("success")){
+                                                dialogue.dismiss();
                                                 getLocation();
                                             }else {
                                                 noExist();

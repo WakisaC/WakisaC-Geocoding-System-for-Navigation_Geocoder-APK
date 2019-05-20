@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-                        Toast.makeText(MapsActivity.this, "Connection !!", Toast.LENGTH_SHORT).show();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
