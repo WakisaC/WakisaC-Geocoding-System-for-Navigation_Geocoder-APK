@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    String getArea,getStreet,getHouseNum;
-    String url ="http://41.70.47.217/getData.php";
+    String getAddress;
+    String url ="http://192.168.43.162/getData2.php";
 
     private GoogleMap mMap;
 
@@ -59,9 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //receive values from address activity
         Intent i = getIntent();
-        getArea= i.getStringExtra("area");
-        getStreet= i.getStringExtra("street");
-        getHouseNum= i.getStringExtra("houseNum");
+        getAddress= i.getStringExtra("address");
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -75,8 +73,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         double longi = obj.getDouble("Longitude");
                             // Add a marker and move the camera
                             LatLng location = new LatLng( lati, longi);
-                            mMap.addMarker(new MarkerOptions().position(location).title(getArea+" "+ getStreet+" street,  house number "+getHouseNum));
+                            mMap.addMarker(new MarkerOptions().position(location).title(getAddress));
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                            mMap.setBuildingsEnabled(true);
 
                         }catch (Exception e){
                             e.printStackTrace();
@@ -93,17 +92,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("area", getArea);
-                params.put("street", getStreet);
-                params.put("houseNum", getHouseNum);
-
+                params.put("address", getAddress);
                 return params;
             }
         };
         Mysingleton.getmInstance(MapsActivity.this).addToRequestque(stringRequest);
-
-
-
     }
 
     public void goToLocation(){
@@ -118,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             // Add a marker and move the camera
                             LatLng location = new LatLng( lat, longi);
-                            mMap.addMarker(new MarkerOptions().position(location).title(getArea+" "+ getStreet+" street,  house number "+getHouseNum));
+                            mMap.addMarker(new MarkerOptions().position(location).title(getAddress));
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
 
 
@@ -142,8 +135,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onResponse(String response) {
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -155,10 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("area", getArea);
-                params.put("street", getStreet);
-                params.put("houseNum", getHouseNum);
-
+                params.put("address", getAddress);
                 return params;
             }
         };

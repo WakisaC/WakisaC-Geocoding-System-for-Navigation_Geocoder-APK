@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Address">
+    tools:context=".physical_address"
+    tools:showIn="@layout/activity_physical_address">
 
     <ImageView
         android:layout_width="match_parent"
@@ -16,8 +17,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="200dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:gravity="center"
@@ -27,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-40dp"
+            android:layout_marginTop="-60dp"
             android:alpha="0.9"
             android:text="Address Details"
             android:textColor="@color/blue"
@@ -36,38 +37,19 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/residentialArea"
+            android:id="@+id/physicalAddress"
+            android:textAllCaps="true"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="text"
-            android:hint="Enter Residential Area"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/street"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:inputType="text"
-            android:hint="Enter Street"
+            android:inputType="textCapCharacters"
+            android:hint=" Enter address code "
             />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/houseNum"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:inputType="text"
-            android:hint="Enter House number"
-            />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/getLocation"
+            android:id="@+id/goLocation"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -78,8 +60,6 @@
             android:textColor="@color/white"/>
 
     </LinearLayout>
-
-
 
 
 </android.support.constraint.ConstraintLayout>

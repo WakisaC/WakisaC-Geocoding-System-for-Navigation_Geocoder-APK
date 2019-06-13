@@ -32,7 +32,7 @@ public class starting extends AppCompatActivity {
 
     }
     public void start(){
-        Intent intent = new Intent(this,Address.class);
+        Intent intent = new Intent(this,physical_address.class);
         startActivity(intent);
     }
 }
