@@ -29,7 +29,7 @@ public class physical_address extends AppCompatActivity {
     Button button;
     EditText address;
     String getAddress;
-    String url ="http://192.168.43.162/connect2.php";
+    String url ="http://192.168.137.1/connect2.php";
     AlertDialog.Builder builder;
     ProgressBar spinner;
     ProgressDialog dialogue;
@@ -140,7 +140,7 @@ public class physical_address extends AppCompatActivity {
     public void noExist(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Location Error");
-        builder1.setMessage("Sorry The area Does not Exist..\n\nType correctly & try again !!");
+        builder1.setMessage("Sorry the area Does not Exist..\n\nType correctly & try again !!");
         builder1.setCancelable(true);
         builder1.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             @Override

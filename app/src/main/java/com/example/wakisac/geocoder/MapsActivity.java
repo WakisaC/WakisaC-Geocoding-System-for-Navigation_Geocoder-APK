@@ -1,5 +1,6 @@
 package com.example.wakisac.geocoder;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     String getAddress;
-    String url ="http://192.168.43.162/getData2.php";
+    String url ="http://192.168.137.1/getData2.php";
 
     private GoogleMap mMap;
 
@@ -67,10 +68,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onResponse(String response) {
                         try{
-                        JSONObject obj = new JSONObject(response);
+                            JSONObject obj = new JSONObject(response);
 
-                        double lati = obj.getDouble("Latitude");
-                        double longi = obj.getDouble("Longitude");
+                            double lati = obj.getDouble("Latitude");
+                            double longi = obj.getDouble("Longitude");
                             // Add a marker and move the camera
                             LatLng location = new LatLng( lati, longi);
                             mMap.addMarker(new MarkerOptions().position(location).title(getAddress));
