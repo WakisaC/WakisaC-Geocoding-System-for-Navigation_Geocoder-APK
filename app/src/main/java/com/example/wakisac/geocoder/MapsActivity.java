@@ -35,7 +35,7 @@ import java.util.Map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     String getAddress;
-    String url = "http://192.168.137.1/getData2.php";
+    String url = "http://192.168.43.10/getData2.php";
 
     public static final int LOCATION_REQUEST = 500;
     private GoogleMap mMap;

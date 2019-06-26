@@ -29,7 +29,7 @@ public class physical_address extends AppCompatActivity {
     Button button;
     EditText address;
     String getAddress;
-    String url ="http://192.168.137.1/connect2.php";
+    String url ="http://192.168.43.10/connect2.php";
     AlertDialog.Builder builder;
     ProgressBar spinner;
     ProgressDialog dialogue;
